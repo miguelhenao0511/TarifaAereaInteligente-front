@@ -5,14 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FlightDetail from './components/flights/FlightDetail';
 import FlightList from './components/flights/FlightList';
 import Sidebar from './components/navbar/NavBar';
+import HomePage from './components/home/HomePage';
+import LineChart from './components/flights/Dashboard';
 
 function App() {
   return (
     <Router>
       <Sidebar />
       <Routes>
-        <Route path="/flights" element={<FlightList />}/>
-        <Route path="/detalle-vuelo" element={<FlightDetail />}/>
+        <Route path="/flights" element={<LineChart />}/>
+        <Route path="/find_flight" element={<FlightList />}/>
+        <Route path="/home" element={<HomePage />}/>
+        <Route path="/" element={<HomePage />}/>
       </Routes>
     </Router>
   );

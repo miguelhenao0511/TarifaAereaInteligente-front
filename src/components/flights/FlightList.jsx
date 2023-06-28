@@ -10,13 +10,67 @@ function FlightList() {
   const [filterSteps, setFilterSteps] = useState('1');
   const [filterDate, setFilterDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [airlines, setAirlines] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/airlines')
+      .then(response => response.json())
+      .then(data => {
+        // Trabajar con los datos recibidos
+        setAirlines(data);
+      })
+      .catch(error => {
+        // Manejar errores
+        setAirlines([]);
+      });
+
+
+    fetch('http://127.0.0.1:8000/routes')
+      .then(response => response.json())
+      .then(data => {
+        // Trabajar con los datos recibidos
+        setDestinations(data);
+      })
+      .catch(error => {
+        // Manejar errores
+        setDestinations([]);
+      });
+  }, []);
 
   const handleFilterSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/flights?airline=${filterAirline}&source=${filterFrom}&destiny=${filterTo}&steps=${filterSteps}&date=${filterDate}`);
+      const body = {
+        "airlines": [filterAirline],
+        "route_from": filterFrom,
+        "route_to": filterTo,
+        "steps": parseInt(filterSteps),
+        "date": filterDate,
+        "days": 1
+      }
+      const response = await fetch("http://127.0.0.1:8000/prices",{
+        method: 'POST',
+        body: JSON.stringify(body)        
+      });
       const data = await response.json();
-      setFlightList(data);
+      const flights = []
+      data.prices.forEach(airlinePrices => {
+        airlinePrices.prices.forEach((airlinePrice, index) =>{
+          flights.push(
+            {
+              "airline": airlinePrices.airline,
+              "source": data.route_from,
+              "destiny": data.route_to,
+              "steps": data.steps,
+              "date": data.dates[index],
+              "price": airlinePrice,
+            }
+          )          
+        })        
+      });
+
+      setFlightList(flights);
     } catch (error) {
       console.error('Error al obtener la lista de vuelos:', error);
     } finally {
@@ -44,42 +98,13 @@ function FlightList() {
     setFilterDate(event.target.value);
   };
 
-  var airlines = [
-    'KLM',
-    'Multiple Airlines',
-    'American Airlines',
-    'Air France',
-    'Lufthansa',
-    'Air Canada',
-    'United Airlines',
-    'British Airways',
-    'Qatar Airways',
-    'Finnair',
-    'Emirates',
-    'SAUDIA',
-    'SWISS',
-    'Finnair, American Airlines',
-    'LOT',
-    'Aeroflot',
-    'Turkish Airlines',
-    'Lufthansa, Egypt Air',
-    'TAP AIR PORTUGAL'
-  ]
-
-  var destinations = [
-    {code: "NYC", name: "NUEVA YORK"},
-    {code: "PAR", name: "PARIS"},
-    {code: "RUH", name: "RIAD ARABIA SAUDI"},
-    {code: "SVO", name: "MOSCU"}
-  ]
-
   return (
     <div className='m-3'>
         <Form.Group controlId="filterSelect">
             <Form.Label>Filtrar por aerolinea:</Form.Label>
             <Form.Control as="select" value={filterAirline} onChange={handleFilterAirlineChange}>
                 <option value="">Todos</option>
-                {airlines.map(airline => (<option value={airline}>{airline}</option>))}
+                {airlines.map(airline => (<option value={airline.name}>{airline.name}</option>))}
             </Form.Control>
         </Form.Group>
         <Form.Group controlId="filterFrom">
