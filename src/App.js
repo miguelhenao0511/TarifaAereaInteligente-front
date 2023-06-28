@@ -7,6 +7,8 @@ import FlightList from './components/flights/FlightList';
 import Sidebar from './components/navbar/NavBar';
 import HomePage from './components/home/HomePage';
 import LineChart from './components/flights/Dashboard';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/flights" element={<LineChart />}/>
         <Route path="/find_flight" element={<FlightList />}/>
         <Route path="/home" element={<HomePage />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/register" element={<Register />}/>
         <Route path="/" element={<HomePage />}/>
       </Routes>
     </Router>

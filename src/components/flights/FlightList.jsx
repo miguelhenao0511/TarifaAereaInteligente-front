@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import FlightDetail from './FlightDetail';
+import Cookies from 'js-cookie';
 
 function FlightList() {
   const [flightList, setFlightList] = useState([]);
@@ -13,8 +14,13 @@ function FlightList() {
   const [airlines, setAirlines] = useState([]);
   const [destinations, setDestinations] = useState([]);
 
+  const auth = Cookies.get('auth');
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/airlines')
+    fetch('http://127.0.0.1:8000/airlines', {
+      method: 'GET',
+      headers: { 'auth': auth }
+    })
       .then(response => response.json())
       .then(data => {
         // Trabajar con los datos recibidos
@@ -26,7 +32,10 @@ function FlightList() {
       });
 
 
-    fetch('http://127.0.0.1:8000/routes')
+    fetch('http://127.0.0.1:8000/routes', {
+      method: 'GET',
+      headers: { 'auth': auth }
+    })
       .then(response => response.json())
       .then(data => {
         // Trabajar con los datos recibidos

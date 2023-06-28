@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Card, Button } from 'react-bootstrap';
+import Cookies from 'js-cookie';
 
 const HomePage = () => {
+  const auth = Cookies.get('auth');
   return (
     <Container>
       <Card>
@@ -22,10 +24,11 @@ const HomePage = () => {
         </ul>
       </Container>
 
-      <Container>
-        <Button variant="primary" href="/registro">Registrarse</Button>
+      {auth != null ? null : (<Container>
+        <Button variant="primary" href="/register">Registrarse</Button>
         <Button variant="secondary" href="/login">Iniciar sesión</Button>
-      </Container>
+      </Container>)}
+
     </Container>
   );
 }
