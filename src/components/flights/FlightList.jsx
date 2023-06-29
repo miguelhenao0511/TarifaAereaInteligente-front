@@ -108,7 +108,9 @@ function FlightList() {
   };
 
   return (
+
     <div className='m-3'>
+      <h3>A continuacion podras realizar tu consulta y obtendras un prediccion</h3>
         <Form.Group controlId="filterSelect">
             <Form.Label>Filtrar por aerolinea:</Form.Label>
             <Form.Control as="select" value={filterAirline} onChange={handleFilterAirlineChange}>

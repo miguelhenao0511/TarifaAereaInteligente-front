@@ -20,7 +20,7 @@ const Sidebar = () => {
           <Nav.Link href="home">Inicio</Nav.Link>
           <Nav.Link href="flights">Vuelos</Nav.Link>
           <Nav.Link href="find_flight">Buscar</Nav.Link>         
-          {auth != null ? <Nav.Link href="#profile">Perfil</Nav.Link> : null}
+          {auth != null ? <Nav.Link href="profile">Perfil</Nav.Link> : null}
           {auth != null ? <Nav.Link href="#" onClick={()=>logout()}>Logout</Nav.Link> : null}
         </Nav>
       </Navbar.Collapse>

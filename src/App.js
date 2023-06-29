@@ -9,6 +9,7 @@ import HomePage from './components/home/HomePage';
 import LineChart from './components/flights/Dashboard';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
+import UserForm from './components/User/user';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/home" element={<HomePage />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
+        <Route path="/profile" element={<UserForm />}/>
         <Route path="/" element={<HomePage />}/>
       </Routes>
     </Router>
